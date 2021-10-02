@@ -1,5 +1,6 @@
 import maze_generator as maze
 import yaml
+import twitter_api
 
 try:
     with open("config.yaml", "r") as config_file:
@@ -10,4 +11,5 @@ except FileNotFoundError:
 # TODO: comprobar si están todas las configuraciones necesarias seteadas en el config.yaml
 
 maze_img = maze.generate(config["width"], config["height"], config["credits"])
-maze_img.show()
+# maze_img.show()
+twitter_api.publish(maze_img, config["twitter"])

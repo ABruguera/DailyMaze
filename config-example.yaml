@@ -6,3 +6,10 @@ width: 10
 
 # This text will show under the maze. Can be blank.
 credits: "@daily_maze"
+
+# Twitter API tokens
+twitter:
+  api_key: "YOUR API KEY"
+  api_key_secret: "YOUR API KEY SECRET"
+  access_token: "YOUR ACCESS TOKEN"
+  access_token_secret: "YOUR ACCESS TOKEN SECRET"
