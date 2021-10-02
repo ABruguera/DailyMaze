@@ -1,0 +1,8 @@
+# Please, rename this file to config.yaml before use the program and set your own values
+
+# Maze dimensions. Min 3x3. Max 400x400.
+height: 10
+width: 10
+
+# This text will show under the maze. Can be blank.
+credits: "@daily_maze"

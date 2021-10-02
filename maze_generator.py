@@ -3,11 +3,16 @@ from PIL import Image, ImageDraw, ImageFont
 from models.cell import Cell
 
 
-def generate(x=20, y=20):
-    if x > 100:
-        x = 100
-    if y > 100:
-        y = 100
+# TODO: Solucionar tamaño imagen en laberintos de diferentes x e y (p. ej. 50x100)
+def generate(x=20, y=20, text=""):
+    if x > 400:
+        x = 400
+    if x < 3:
+        x = 3
+    if y > 400:
+        y = 400
+    if y < 3:
+        y = 3
     print(f"Generando laberinto de {x} x {y}...")
     image = Image.new("RGB", (1200, 1200), color="white")
 
@@ -134,7 +139,7 @@ def generate(x=20, y=20):
 
     draw = ImageDraw.Draw(maze)
     font = ImageFont.truetype("arial.ttf", 16)
-    draw.text((1150, 1230), "@DailyMaze", "black", font=font)
+    draw.text((1120, 1230), text, "black", font=font)
     del draw
 
     maze.save("maze.png")
