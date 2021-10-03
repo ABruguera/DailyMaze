@@ -13,3 +13,24 @@ twitter:
   api_key_secret: "YOUR API KEY SECRET"
   access_token: "YOUR ACCESS TOKEN"
   access_token_secret: "YOUR ACCESS TOKEN SECRET"
+
+# Messages to write on Twitter posts. Every post will contain the generic text and the specific text of the current day
+messages:
+  morning:
+    generic_text: "Good morning, humans!"
+    monday: "But... it's monday :("
+    tuesday: "Take a cup of coffee!"
+    wednesday: ""
+    thursday: ""
+    friday: "Finally it's friday!"
+    saturday: "Time to rest!"
+    sunday: ""
+  evening:
+    generic_text: "Good evening, humans!"
+    monday: "The worst day is over! :D"
+    tuesday: ""
+    wednesday: ""
+    thursday: ""
+    friday: "Good weekend!"
+    saturday: ""
+    sunday: "Oh no! Tomorrow... :_("

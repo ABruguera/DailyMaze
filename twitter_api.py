@@ -3,7 +3,7 @@ from io import BytesIO
 import base64
 
 
-def publish(image, tokens):
+def publish(message, image, tokens):
     auth = OAuth1Session(tokens["api_key"], tokens["api_key_secret"], tokens["access_token"],
                          tokens["access_token_secret"])
 
@@ -20,7 +20,7 @@ def publish(image, tokens):
 
     # Tweet post
     data = {
-        "status": "Good evening people!",
+        "status": message,
         "media_ids": media_id
     }
     url = "https://api.twitter.com/1.1/statuses/update.json"
