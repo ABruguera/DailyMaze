@@ -25,8 +25,6 @@ if "--time" in sys.argv:
 else:
     print("No time provided. The message will be blank")
 
-maze_img = maze.generate(config["width"], config["height"], config["credits"])
-maze_img.show()
+maze_img = maze.generate(config["width"], config["height"], config["cell_size"], config["credits"])
+# maze_img.show()
 twitter_api.publish(message, maze_img, config["twitter"])
-
-

@@ -3,23 +3,18 @@ from PIL import Image, ImageDraw, ImageFont
 from models.cell import Cell
 
 
-# TODO: Solucionar tamaño imagen en laberintos de diferentes x e y (p. ej. 50x100)
-def generate(x=20, y=20, text=""):
+def generate(x=20, y=20, cell_size=20, text=""):
     if x > 400:
         x = 400
-    if x < 3:
-        x = 3
+    if x < 2:
+        x = 2
     if y > 400:
         y = 400
-    if y < 3:
-        y = 3
+    if y < 2:
+        y = 2
     print(f"Generando laberinto de {x} x {y}...")
-    image = Image.new("RGB", (1200, 1200), color="white")
 
     # random.seed(4)
-
-    draw = ImageDraw.Draw(image)
-    cell_size = int(image.width / x)
 
     grid = [[Cell() for _ in range(x)] for _ in range(y)]
 
@@ -103,6 +98,9 @@ def generate(x=20, y=20, text=""):
     grid[entrada[0]][entrada[1]].is_entrance = True
     grid[salida[0]][salida[1]].is_exit = True
 
+    image = Image.new("RGB", (x * cell_size, y * cell_size), color="white")
+    draw = ImageDraw.Draw(image)
+
     for ifila, fila in enumerate(grid):
         for icelda, celda in enumerate(fila):
             x_start = cell_size * icelda
@@ -123,7 +121,7 @@ def generate(x=20, y=20, text=""):
                 else:
                     draw.line(line, fill="black")
             if celda.muro_abajo:
-                if y_start == image.width - cell_size:
+                if y_start == image.height - cell_size:
                     y_start -= 1
                 line = ((x_start, y_start + cell_size), (x_start + cell_size, y_start + cell_size))
                 draw.line(line, fill="black")
@@ -133,13 +131,12 @@ def generate(x=20, y=20, text=""):
                 draw.line(line, fill="black")
 
     del draw
-
-    maze = Image.new(image.mode, (1250, 1250), "white")
+    maze = Image.new(image.mode, (image.width + 50, image.height + 50), "white")
     maze.paste(image, (25, 25))
 
     draw = ImageDraw.Draw(maze)
     font = ImageFont.truetype("arial.ttf", 16)
-    draw.text((1120, 1230), text, "black", font=font)
+    draw.text((maze.width - 130, maze.height - 20), text, "black", font=font)
     del draw
 
     maze.save("maze.png")
