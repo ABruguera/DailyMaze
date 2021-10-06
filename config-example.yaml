@@ -1,4 +1,4 @@
-# Please, rename this file to config.yaml before use the program and set your own values
+# Please, copy this file to config.yaml before use the program and set your own values
 
 # Maze dimensions. Min 2x2. Max 400x400. Cell size in pixels.
 height: 10
