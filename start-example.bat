@@ -1,0 +1,1 @@
+"C:\path\to\python.exe" "C:\path\to\main.py" --time %1
