@@ -13,6 +13,7 @@ except FileNotFoundError:
 # TODO: comprobar si están todas las configuraciones necesarias seteadas en el config.yaml
 
 message = ""
+time = ""
 if "--time" in sys.argv:
     index_time = sys.argv.index("--time")
     if len(sys.argv) > index_time + 1:
@@ -25,6 +26,6 @@ if "--time" in sys.argv:
 else:
     print("No time provided. The message will be blank")
 
-maze_img = maze.generate(config["width"], config["height"], config["cell_size"], config["credits"])
+maze_img = maze.generate(config["width"], config["height"], config["cell_size"], config["credits"], time)
 # maze_img.show()
 twitter_api.publish(message, maze_img, config["twitter"])

@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 from models.cell import Cell
 
 
-def generate(x=20, y=20, cell_size=20, text=""):
+def generate(x=20, y=20, cell_size=20, text="", time="morning"):
     if x > 400:
         x = 400
     if x < 2:
@@ -101,6 +101,11 @@ def generate(x=20, y=20, cell_size=20, text=""):
     image = Image.new("RGB", (x * cell_size, y * cell_size), color="white")
     draw = ImageDraw.Draw(image)
 
+    x_entrance = 0
+    y_entrance = 0
+    x_exit = 0
+    y_exit = 0
+
     for ifila, fila in enumerate(grid):
         for icelda, celda in enumerate(fila):
             x_start = cell_size * icelda
@@ -110,14 +115,16 @@ def generate(x=20, y=20, cell_size=20, text=""):
                     x_start -= 1
                 line = ((x_start + cell_size, y_start), (x_start + cell_size, y_start + cell_size))
                 if celda.is_exit:
-                    draw.rectangle(line, outline="red", width=4)
+                    x_exit = x_start
+                    y_exit = y_start
                 else:
                     draw.line(line, fill="black")
             x_start = cell_size * icelda
             if celda.muro_izquierda:
                 line = ((x_start, y_start), (x_start, y_start + cell_size))
                 if celda.is_entrance:
-                    draw.rectangle(line, outline="red", width=4)
+                    x_entrance = x_start
+                    y_entrance = y_start
                 else:
                     draw.line(line, fill="black")
             if celda.muro_abajo:
@@ -131,12 +138,24 @@ def generate(x=20, y=20, cell_size=20, text=""):
                 draw.line(line, fill="black")
 
     del draw
-    maze = Image.new(image.mode, (image.width + 50, image.height + 50), "white")
-    maze.paste(image, (25, 25))
+    maze = Image.new(image.mode, (image.width + (cell_size * 6), image.height + (cell_size * 6)), "white")
+    maze.paste(image, (int(cell_size * 3), int(cell_size * 3)))
 
     draw = ImageDraw.Draw(maze)
-    font = ImageFont.truetype("arial.ttf", 16)
-    draw.text((maze.width - 130, maze.height - 20), text, "black", font=font)
+    # Write text
+    if len(text) > 0:
+        font = ImageFont.truetype("arial.ttf", cell_size)
+        draw.text((maze.width - cell_size * len(text), maze.height - (cell_size * 2.5)), text, "black", font=font)
+
+    # Put the entrance and exit images
+    entrance_img = Image.open(f"assets/start.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
+    entrance_img_mask = Image.open(f"assets/start.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
+    maze.paste(entrance_img, (x_entrance, y_entrance + (cell_size * 2)), entrance_img_mask)
+
+    exit_img = Image.open(f"assets/end_{time}.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
+    exit_img_mask = Image.open(f"assets/end_{time}.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
+    maze.paste(exit_img, (x_exit + (cell_size * 4), y_exit + cell_size + cell_size), exit_img_mask)
+
     del draw
 
     maze.save("maze.png")
