@@ -1,4 +1,4 @@
-# DailyMaze
+# <img src="assets/start.png" width="50" height="50"/> DailyMaze
 
 #### Descripción
 DailyMaze es una aplicación que genera un laberinto según la configuración del usuario y lo publica en la cuenta de
