@@ -4,20 +4,19 @@ from models.cell import Cell
 
 
 def generate(x=20, y=20, cell_size=20, text="", time="morning"):
-    if x > 400:
-        x = 400
-    if x < 2:
-        x = 2
-    if y > 400:
-        y = 400
-    if y < 2:
-        y = 2
     print(f"Generando laberinto de {x} x {y}...")
 
     # random.seed(4)
 
-    grid = [[Cell() for _ in range(x)] for _ in range(y)]
+    grid = _generate_grid(x, y)
+    maze = _draw_maze(cell_size, grid, text, time, x, y)
+    maze.save("maze.png")
 
+    return maze
+
+
+def _generate_grid(x, y):
+    grid = [[Cell() for _ in range(x)] for _ in range(y)]
     current_row = random.randrange(0, y)
     current_cell = random.randrange(0, x)
     cell = grid[current_row][current_cell]
@@ -98,14 +97,16 @@ def generate(x=20, y=20, cell_size=20, text="", time="morning"):
     grid[entrada[0]][entrada[1]].is_entrance = True
     grid[salida[0]][salida[1]].is_exit = True
 
+    return grid
+
+
+def _draw_maze(cell_size, grid, text, time, x, y):
     image = Image.new("RGB", (x * cell_size, y * cell_size), color="white")
     draw = ImageDraw.Draw(image)
-
     x_entrance = 0
     y_entrance = 0
     x_exit = 0
     y_exit = 0
-
     for ifila, fila in enumerate(grid):
         for icelda, celda in enumerate(fila):
             x_start = cell_size * icelda
@@ -138,10 +139,11 @@ def generate(x=20, y=20, cell_size=20, text="", time="morning"):
                 draw.line(line, fill="black")
 
     del draw
+
     maze = Image.new(image.mode, (image.width + (cell_size * 6), image.height + (cell_size * 6)), "white")
     maze.paste(image, (int(cell_size * 3), int(cell_size * 3)))
-
     draw = ImageDraw.Draw(maze)
+
     # Write text
     if len(text) > 0:
         font = ImageFont.truetype("arial.ttf", cell_size)
@@ -151,12 +153,10 @@ def generate(x=20, y=20, cell_size=20, text="", time="morning"):
     entrance_img = Image.open(f"assets/start.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
     entrance_img_mask = Image.open(f"assets/start.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
     maze.paste(entrance_img, (x_entrance, y_entrance + (cell_size * 2)), entrance_img_mask)
-
     exit_img = Image.open(f"assets/end_{time}.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
     exit_img_mask = Image.open(f"assets/end_{time}.png").resize((cell_size * 3, cell_size * 3), Image.ANTIALIAS)
     maze.paste(exit_img, (x_exit + (cell_size * 4), y_exit + cell_size + cell_size), exit_img_mask)
 
     del draw
 
-    maze.save("maze.png")
     return maze

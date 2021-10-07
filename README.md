@@ -14,6 +14,9 @@ personalizar el laberinto según las opciones dadas:
 - **twitter**: Aquí se introducen las api key de Twitter.
 - **messages**: Mensajes personalizables para cada día de la semana que se publicarán junto al laberinto.
 
+Además, es posible cambiar las imágenes de inicio y final del laberinto, tan solo habría que reemplazar las que hay
+en la carpeta de assets.
+
 #### Uso de la aplicación
 Se debe pasar el parámetro `--time` seguido de `morning` o `evening`. Es decir: 
 
