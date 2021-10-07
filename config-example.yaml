@@ -1,6 +1,7 @@
 # Please, copy this file to config.yaml before use the program and set your own values
 
-# Maze dimensions. Min 2x2. Max 400x400. Cell size in pixels.
+# Maze dimensions. Min 2x2. Max 400x400. Cell size in pixels (min 10). In case of configure incorrect values,
+# the program will use the default ones.
 height: 10
 width: 10
 cell_size: 20
